@@ -441,6 +441,8 @@
     <None Include="include\glm\gtx\wrap.inl">
       <Filter>File di intestazione</Filter>
     </None>
+    <None Include="shader\shaders\basicVert.glsl" />
+    <None Include="shader\shaders\basicFrag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\stb_image.h">
@@ -1302,6 +1304,9 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\KHR\khrplatform.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="shader\shaderHandler.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
