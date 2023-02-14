@@ -288,6 +288,7 @@
     <None Include="shader\shaders\basicVert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera\camera.h" />
     <ClInclude Include="include\glad\glad.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
