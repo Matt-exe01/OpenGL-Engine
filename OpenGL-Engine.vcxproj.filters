@@ -1312,6 +1312,9 @@
     <ClInclude Include="camera\camera.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="renderer\renderer.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="include\glfw3.lib" />

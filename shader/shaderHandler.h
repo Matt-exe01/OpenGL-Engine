@@ -15,7 +15,7 @@ public:
     unsigned int ID;
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
-    Shader(const char* vertexPath, const char* fragmentPath)
+    Shader(const char* vertexPath, const char* fragmentPath, const char* texturePath)
     {
         // 1. retrieve the vertex/fragment source code from filePath
         std::string vertexCode;
@@ -69,6 +69,30 @@ public:
         glDeleteShader(vertex);
         glDeleteShader(fragment);
 
+
+        //Creo le OpenGL texture
+        unsigned int texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
+        //Prendo la texture con STB_Image
+        int width, height, nrChannels;
+        unsigned char* data = stbi_load(texturePath, &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            //TIPO, MIPMAP, COLORI, WIDTH. HEIGHT, LEGACY, COLORI, DATA TYPE, DATA
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+
+        //Libero la memoria dall'immagine
+        stbi_image_free(data);
     }
     // activate the shader
     // ------------------------------------------------------------------------

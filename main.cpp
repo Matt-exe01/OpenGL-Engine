@@ -10,12 +10,9 @@
 
 #include "shader/shaderHandler.h"
 #include "camera/camera.h"
+#include "renderer/renderer.h"
 
 #include <iostream>
-
-
-
-Shader* shaderManager;
 
 bool wireframe = false;
 
@@ -68,7 +65,9 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-    shaderManager = new Shader("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl");
+    Shader shaderManager("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl", "./res/skin.jpg");
+
+    Renderer renderer(&camera, &shaderManager);
 
 
     //========== TMP - Test Only ==========\\
@@ -102,6 +101,20 @@ int main()
          0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
          0.5f,  0.5f, -0.5f, 0.0f, 0.0f, //5
         -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
+        //TOP
+        -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
+        -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //2
+         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
+         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
+         0.5f,  0.5f, -0.5f, 0.0f, 0.0f, //5
+        -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
+        //TOP
+        -1.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
+        -1.5f,  0.5f,  0.5f, 1.0f, 1.0f, //2
+        -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
+        -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
+        -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, //5
+        -1.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
         //LEFT
         -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //5
         -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, //1
@@ -134,56 +147,6 @@ int main()
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-    //Creo le OpenGL texture
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-
-    //Prendo la texture con STB_Image
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load("./res/skin.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        //TIPO, MIPMAP, COLORI, WIDTH. HEIGHT, LEGACY, COLORI, DATA TYPE, DATA
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        std::cout << "ok";
-    }
-
-    //Libero la memoria dall'immagine
-    stbi_image_free(data);
-
-    unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // Attributi positione
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    // Attributi colore
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // Unbindo il VAO
-    glBindVertexArray(0);
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
     //========== End TMP - Test Only ==========\\
 
 
@@ -210,16 +173,18 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        shaderManager->setInt("texture", 0);
-        shaderManager->use();
+        shaderManager.setInt("texture", 0);
+        shaderManager.use();
+
+        renderer.renderMesh(vertices, (sizeof(vertices)/sizeof(float)));
 
 
-
+        /*
         glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 100.0f);
-        shaderManager->setMat4("projection", projection);
+        shaderManager.setMat4("projection", projection);
 
         glm::mat4 view = glm::lookAt(camera.Position, camera.Position + camera.Front, camera.Up);
-        shaderManager->setMat4("view", view);
+        shaderManager.setMat4("view", view);
 
 
         glBindVertexArray(VAO);
@@ -229,14 +194,16 @@ int main()
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             //model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            shaderManager->setMat4("model", model);
+            shaderManager.setMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
+        */
         // Swappa i buffer e mette in coda gli eventi
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
+        //break;
     }
 
     // termina e disalloca tutte le risorse di glfw
