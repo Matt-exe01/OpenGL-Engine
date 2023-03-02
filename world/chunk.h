@@ -24,7 +24,7 @@ public:
 
         ptrMeshBuffer = ptr;
 
-		mesh.reserve(1000000);
+		mesh.reserve(3000000);
 
 		for (unsigned int x = 0; x < 16; x++)
 		{
@@ -45,13 +45,15 @@ public:
 		{
 			for (float z = 0; z < 16; z++)
 			{
-				for (float y = 0; y < 16; y++)
+				for (float y = 0; y < 64; y++)
 				{
 					//per ogni blocco controllo le adiacenze (face culling, non aggiungo al buffer le facce che non vedo)
 					for (unsigned int i = 1; i <= 6; i++)
 					{
-						addFaceToMesh(i, x, y, z);
-						elemAdded++;
+						if (isFaceAdjacent(i, x, y, z)) {
+							addFaceToMesh(i, x, y, z);
+							elemAdded++;
+						}
 					}
 				}
 			}
@@ -72,12 +74,12 @@ private:
 		case 1:
 		{
 			float BackVertices[30] = {
-				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
-				(-0.5f + (chunkX)), ( 0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f,
-				(0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
-				(0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
-				(0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
+				(-0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
+				(-0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f,
+				( 0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
+				( 0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
+				( 0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f,
+				(-0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(BackVertices), std::end(BackVertices));
@@ -165,6 +167,31 @@ private:
 			break;
 		}
 
+	}
+
+	bool isFaceAdjacent(int face, int x, int y, int z) {
+		switch (face)
+		{
+		case 1:
+			if (z != 0) return false;
+			break;
+		case 2:
+			if (y != 63) return false;
+			break;
+		case 3:
+			if (z != 15) return false;
+			break;
+		case 4:
+			if (y != 0) return false;
+			break;
+		case 5:
+			if (x != 0) return false;
+			break;
+		case 6:
+			if (x != 15) return false;
+			break;
+		}
+		return true;
 	}
 
 };

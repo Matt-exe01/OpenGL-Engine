@@ -1318,9 +1318,6 @@
     <ClInclude Include="world\chunk.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="world\blockVertices.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="include\glfw3.lib" />

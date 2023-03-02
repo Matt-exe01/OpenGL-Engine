@@ -578,7 +578,6 @@
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="renderer\renderer.h" />
     <ClInclude Include="shader\shaderHandler.h" />
-    <ClInclude Include="world\blockVertices.h" />
     <ClInclude Include="world\chunk.h" />
   </ItemGroup>
   <ItemGroup>
