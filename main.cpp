@@ -11,16 +11,21 @@
 #include "shader/shaderHandler.h"
 #include "camera/camera.h"
 #include "renderer/renderer.h"
+#include "world/chunk.h"
 
 #include <iostream>
 
 bool wireframe = false;
+
+float mesh[4000000];
 
 // camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = 1920 / 2.0f;
 float lastY = 1080 / 2.0f;
 bool firstMouse = true;
+
+Chunk chunk(0, 0, mesh);
 
 
 
@@ -70,86 +75,11 @@ int main()
     Renderer renderer(&camera, &shaderManager);
 
 
-    //========== TMP - Test Only ==========\\
+    //==== Start TMP - Test Only ==========\\
 
-    float vertices[] = {
-        //BACK
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //0
-        -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, //1
-         0.5f,  0.5f, -0.5f, 1.0f, 1.0f, //2
-         0.5f,  0.5f, -0.5f, 1.0f, 1.0f, //2
-         0.5f, -0.5f, -0.5f, 1.0f, 0.0f, //3
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //0
-        //FRONT
-         0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //6
-        -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, //4
-         0.5f, -0.5f,  0.5f, 1.0f, 0.0f, //7
-        -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, //4
-         0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //6
-        -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //5
-        //BOTTOM
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //0
-         0.5f, -0.5f, -0.5f, 1.0f, 0.0f, //3
-         0.5f, -0.5f,  0.5f, 1.0f, 1.0f, //7
-         0.5f, -0.5f,  0.5f, 1.0f, 1.0f, //7
-        -0.5f, -0.5f,  0.5f, 0.0f, 1.0f, //4 
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //0
-        //TOP
-        -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
-        -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //2
-         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
-         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
-         0.5f,  0.5f, -0.5f, 0.0f, 0.0f, //5
-        -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
-        //TOP
-        -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
-        -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //2
-         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
-         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
-         0.5f,  0.5f, -0.5f, 0.0f, 0.0f, //5
-        -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
-        //TOP
-        -1.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
-        -1.5f,  0.5f,  0.5f, 1.0f, 1.0f, //2
-        -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
-        -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //1
-        -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, //5
-        -1.5f,  0.5f, -0.5f, 1.0f, 0.0f, //6
-        //LEFT
-        -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //5
-        -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, //1
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //0
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //0
-        -0.5f, -0.5f,  0.5f, 1.0f, 0.0f, //4
-        -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, //5
-        //RIGHT
-         0.5f, -0.5f, -0.5f, 1.0f, 0.0f, //3
-         0.5f,  0.5f, -0.5f, 1.0f, 1.0f, //2
-         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //6
-         0.5f,  0.5f,  0.5f, 0.0f, 1.0f, //6
-         0.5f, -0.5f,  0.5f, 0.0f, 0.0f, //7
-         0.5f, -0.5f, -0.5f, 1.0f, 0.0f, //3
+    //====== End TMP - Test Only ==========\\
 
-
-    };
-
-    // posizione nel mondo dei miei cubi
-    glm::vec3 cubePositions[] = {
-        glm::vec3(0.0f,  0.0f,  0.0f),
-        glm::vec3(2.0f,  5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3(2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3(1.3f, -2.0f, -2.5f),
-        glm::vec3(1.5f,  2.0f, -2.5f),
-        glm::vec3(1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
-
-    //========== End TMP - Test Only ==========\\
-
-
+    int faceInMesh = chunk.generateChunkMesh();
 
     // render loop
     // -----------
@@ -176,7 +106,8 @@ int main()
         shaderManager.setInt("texture", 0);
         shaderManager.use();
 
-        renderer.renderMesh(vertices, (sizeof(vertices)/sizeof(float)));
+        renderer.renderMesh(mesh, faceInMesh);
+        //break;
 
 
         /*
@@ -203,7 +134,6 @@ int main()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
-        //break;
     }
 
     // termina e disalloca tutte le risorse di glfw

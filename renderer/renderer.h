@@ -17,9 +17,9 @@ public:
 		ShaderHandler = shader;
 
 
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		//glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_BACK);
 	};
 
 
@@ -43,7 +43,7 @@ public:
 		glBindVertexArray(VAO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(mesh)*length, mesh, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, (sizeof(mesh) * length * 30), mesh, GL_STATIC_DRAW);
 
 		//std::cout << length << "\n";
 
@@ -61,7 +61,7 @@ public:
 		glm::mat4 model = glm::mat4(1.0f);
 		ShaderHandler->setMat4("model", model);
 
-		glDrawArrays(GL_TRIANGLES, 0, (length/5));
+		glDrawArrays(GL_TRIANGLES, 0, (length*6));
 	}
 
 private:
