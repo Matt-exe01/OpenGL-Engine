@@ -20,7 +20,7 @@ bool wireframe = false;
 float mesh[4000000];
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 65.0f, 3.0f));
 float lastX = 1920 / 2.0f;
 float lastY = 1080 / 2.0f;
 bool firstMouse = true;

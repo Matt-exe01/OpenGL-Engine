@@ -3,6 +3,7 @@
 #include <vector>
 #include <iterator>
 #include <iostream>
+#include <stdlib.h>
 
 
 class Chunk
@@ -30,9 +31,10 @@ public:
 		{
 			for (unsigned int z = 0; z < 16; z++)
 			{
-				for (unsigned int y = 0; y < 16; y++)
+				int colHeight = rand() % 24 + 40;
+				for (unsigned int y = 0; y < 64; y++)
 				{
-					ChunkData[x][y][z] = 1;
+					ChunkData[x][y][z] = (y < colHeight) ? 1 : 0;
 				}
 			}
 		}
@@ -41,18 +43,19 @@ public:
 	int generateChunkMesh() {
 		int elemAdded = 0;
 
-		for (float x = 0; x < 16; x++)
+		for (int x = 0; x < 16; x++)
 		{
-			for (float z = 0; z < 16; z++)
+			for (int z = 0; z < 16; z++)
 			{
-				for (float y = 0; y < 64; y++)
+				for (int y = 0; y < 64; y++)
 				{
-					//per ogni blocco controllo le adiacenze (face culling, non aggiungo al buffer le facce che non vedo)
-					for (unsigned int i = 1; i <= 6; i++)
-					{
-						if (isFaceAdjacent(i, x, y, z)) {
-							addFaceToMesh(i, x, y, z);
-							elemAdded++;
+					if (ChunkData[x][y][z] != 0) {
+						for (int i = 1; i <= 6; i++)
+						{
+							if (!isFaceAdjacent(i, x, y, z)) {
+								addFaceToMesh(i, x, y, z);
+								elemAdded++;
+							}
 						}
 					}
 				}
@@ -173,22 +176,28 @@ private:
 		switch (face)
 		{
 		case 1:
-			if (z != 0) return false;
+			if (z == 0) return false;
+			if (ChunkData[x][y][z - 1] == 0) return false;
 			break;
 		case 2:
-			if (y != 63) return false;
+			if (y == 63) return false;
+			if (ChunkData[x][y + 1][z] == 0) return false;
 			break;
 		case 3:
-			if (z != 15) return false;
+			if (z == 15) return false;
+			if (ChunkData[x][y][z + 1] == 0) return false;
 			break;
 		case 4:
-			if (y != 0) return false;
+			if (y == 0) return false;
+			if (ChunkData[x][y - 1][z] == 0) return false;
 			break;
 		case 5:
-			if (x != 0) return false;
+			if (x == 0) return false;
+			if (ChunkData[x - 1][y][z] == 0) return false;
 			break;
 		case 6:
-			if (x != 15) return false;
+			if (x == 15) return false;
+			if (ChunkData[x + 1][y][z] == 0) return false;
 			break;
 		}
 		return true;
