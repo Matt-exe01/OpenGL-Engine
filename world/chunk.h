@@ -61,7 +61,6 @@ public:
 				}
 			}
 		}
-		std::cout << (elemAdded * 30);
 		std::copy(mesh.begin(), mesh.end(), ptrMeshBuffer);
 		return elemAdded;
 	}
@@ -76,13 +75,13 @@ private:
 			//  =====  BACK  =====
 		case 1:
 		{
-			float BackVertices[30] = {
-				(-0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
-				(-0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f,
-				( 0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
-				( 0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
-				( 0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f,
-				(-0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
+			float BackVertices[36] = {
+				(-0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f, 0.8f,
+				(-0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f, 0.8f,
+				( 0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f, 0.8f,
+				( 0.5f + (chunkX)),  ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f, 0.8f,
+				( 0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f, 0.8f,
+				(-0.5f + (chunkX)),  (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f, 0.8f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(BackVertices), std::end(BackVertices));
@@ -92,13 +91,13 @@ private:
 		//  =====  TOP  =====
 		case 2:
 		{
-			float TopVertices[30] = {
-				( 0.5f + (chunkX)),  (0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f,
-				( 0.5f + (chunkX)),  (0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
-				(-0.5f + (chunkX)),  (0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f,
-				(-0.5f + (chunkX)),  (0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f,
-				(-0.5f + (chunkX)),  (0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f,
-				( 0.5f + (chunkX)),  (0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f,
+			float TopVertices[36] = {
+				( 0.5f + (chunkX)),  (0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f, 1.0f,
+				( 0.5f + (chunkX)),  (0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f, 1.0f,
+				(-0.5f + (chunkX)),  (0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f, 1.0f,
+				(-0.5f + (chunkX)),  (0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f, 1.0f,
+				(-0.5f + (chunkX)),  (0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f, 1.0f,
+				( 0.5f + (chunkX)),  (0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f, 1.0f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(TopVertices), std::end(TopVertices));
@@ -108,13 +107,13 @@ private:
 		//  =====  FRONT  =====
 		case 3:
 		{
-			float FrontVertices[30] = {
-				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f,
-				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f,
-				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f,
-				(-0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f,
+			float FrontVertices[36] = {
+				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f, 0.8f,
+				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f, 0.8f,
+				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f, 0.8f,
+				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f, 0.8f,
+				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f, 0.8f,
+				(-0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f, 0.8f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(FrontVertices), std::end(FrontVertices));
@@ -124,13 +123,13 @@ private:
 		//  =====  BOTTOM  =====
 		case 4:
 		{
-			float BottomVertices[30] = {
-				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
-				( 0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f,
-				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f,
-				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
+			float BottomVertices[36] = {
+				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f, 0.6f,
+				( 0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f, 0.6f,
+				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f, 0.6f,
+				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f, 0.6f,
+				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f, 0.6f,
+				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f, 0.6f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(BottomVertices), std::end(BottomVertices));
@@ -140,13 +139,13 @@ private:
 		//  =====  LEFT  =====
 		case 5:
 		{
-			float LeftVertices[30] = {
-				(-0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f,
-				(-0.5f + (chunkX)), ( 0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f,
-				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f,
-				(-0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f,
+			float LeftVertices[36] = {
+				(-0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f, 0.7f,
+				(-0.5f + (chunkX)), ( 0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 1.0f, 0.7f,
+				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f, 0.7f,
+				(-0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 0.0f, 0.0f, 0.7f,
+				(-0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 0.0f, 0.7f,
+				(-0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 1.0f, 1.0f, 0.7f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(LeftVertices), std::end(LeftVertices));
@@ -156,13 +155,13 @@ private:
 		//  =====  RIGHT  =====
 		case 6:
 		{
-			float RightVertices[30] = {
-				( 0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f,
-				( 0.5f + (chunkX)), ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f,
-				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f,
-				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f,
-				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f,
-				( 0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f,
+			float RightVertices[36] = {
+				( 0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f, 0.7f,
+				( 0.5f + (chunkX)), ( 0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 1.0f, 0.7f,
+				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f, 0.7f,
+				( 0.5f + (chunkX)), ( 0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 1.0f, 0.7f,
+				( 0.5f + (chunkX)), (-0.5f + chunkY), ( 0.5f + (chunkZ)), 0.0f, 0.0f, 0.7f,
+				( 0.5f + (chunkX)), (-0.5f + chunkY), (-0.5f + (chunkZ)), 1.0f, 0.0f, 0.7f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(RightVertices), std::end(RightVertices));
