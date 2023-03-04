@@ -1331,4 +1331,9 @@
   <ItemGroup>
     <Library Include="include\glfw3.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\skin.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

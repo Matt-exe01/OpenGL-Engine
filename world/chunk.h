@@ -18,25 +18,33 @@ public:
 
 	Chunk(int x, int z, int seed) {
 
-		FastNoiseLite gen;
+		FastNoiseLite gen(seed);
+		gen.SetNoiseType(FastNoiseLite::NoiseType_Value);
 
 		xCoord = x;
 		zCoord = z;
+
+		std::cout << "===== Chunk: " << xCoord << " - " << zCoord << " =====\n";
 
 		for (unsigned int x = 0; x < 16; x++)
 		{
 			for (unsigned int z = 0; z < 16; z++)
 			{
-				float tmp = gen.GetNoise(x + 0.5 + xCoord*16, z + 0.5 + zCoord*16) / 2 + 0.5;
-				tmp = round(tmp * 32)+32;
-				std::cout << tmp << "\n";
-				int colHeight = rand() % 50 + 14;
+				float tmp = gen.GetNoise((x + 0.5 + xCoord * 16), (z + 0.5 + zCoord * 16)) +
+							0.5 * gen.GetNoise(2*(x + 0.5 + xCoord * 16), 2*(z + 0.5 + zCoord * 16)) + 
+							0.25 * gen.GetNoise(4 * (x + 0.5 + xCoord * 16), 4 * (z + 0.5 + zCoord * 16));
+				tmp = tmp / 2 + 0.5;
+				tmp = pow(tmp, 3);
+				tmp = round(tmp * 48)+16;
+				std::cout << tmp << ((z == 15) ? "\n" : " - ");
 				for (unsigned int y = 0; y < 64; y++)
 				{
-					ChunkData[x][y][z] = (y < tmp) ? 1 : 0;
+					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp) ? 1 : 0;
 				}
 			}
 		}
+
+		std::cout << "\n\n\n";
 	};
 
 	std::vector<float> generateChunkMesh() {
@@ -71,6 +79,8 @@ private:
 
 		int xToAdd = xCoord * 16;
 		int zToAdd = zCoord * 16;
+
+		float texureOffset = (faceDirection - 1) / 6;
 
 		//per ognuno aggiungo la faccia più le coordinate del blocco nel mondo
 		switch (faceDirection)

@@ -69,7 +69,7 @@ public:
 
     void ProcessKeyboard(Camera_Movement direction, float deltaTime)
     {
-        float velocity = MovementSpeed * deltaTime * 5;
+        float velocity = MovementSpeed * deltaTime * 10;
         if (direction == FORWARD)
             Position += Front * velocity;
         if (direction == BACKWARD)

@@ -1,4 +1,5 @@
 #include <unordered_map>
+#include <ctime>
 #include "chunk.h"
 
 class World
@@ -11,11 +12,11 @@ public:
 	float* ptr;
 
 	World(float* ptrMesh) {
-
+		int seed = time(NULL);
 		ptr = ptrMesh;
 		for (int x = 0; x < 15; x++) {
 			for (int z = 0; z < 15; z++) {
-				mappa[x][z] = new Chunk(x, z, 10);
+				mappa[x][z] = new Chunk(x, z, seed);
 			}
 		}
 	};
