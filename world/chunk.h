@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include "../math/FastNoiseLite.h"
 
 
 class Chunk
@@ -15,7 +16,10 @@ public:
 
 	int ChunkData[16][64][16];
 
-	Chunk(int x, int z) {
+	Chunk(int x, int z, int seed) {
+
+		FastNoiseLite gen;
+
 		xCoord = x;
 		zCoord = z;
 
@@ -23,10 +27,13 @@ public:
 		{
 			for (unsigned int z = 0; z < 16; z++)
 			{
+				float tmp = gen.GetNoise(x + 0.5 + xCoord*16, z + 0.5 + zCoord*16) / 2 + 0.5;
+				tmp = round(tmp * 32)+32;
+				std::cout << tmp << "\n";
 				int colHeight = rand() % 50 + 14;
 				for (unsigned int y = 0; y < 64; y++)
 				{
-					ChunkData[x][y][z] = (y < colHeight) ? 1 : 0;
+					ChunkData[x][y][z] = (y < tmp) ? 1 : 0;
 				}
 			}
 		}

@@ -11,10 +11,11 @@ public:
 	float* ptr;
 
 	World(float* ptrMesh) {
+
 		ptr = ptrMesh;
 		for (int x = 0; x < 15; x++) {
 			for (int z = 0; z < 15; z++) {
-				mappa[x][z] = new Chunk(x, z);
+				mappa[x][z] = new Chunk(x, z, 10);
 			}
 		}
 	};
