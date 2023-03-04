@@ -1324,7 +1324,7 @@
     <ClInclude Include="world\world.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="math\FastNoiseLite.h">
+    <ClInclude Include="math\Noises.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

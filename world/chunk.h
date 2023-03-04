@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <iostream>
-#include "../math/FastNoiseLite.h"
+#include "../math/Noises.h"
 
 
 class Chunk
@@ -19,7 +19,8 @@ public:
 	Chunk(int x, int z, int seed) {
 
 		FastNoiseLite gen(seed);
-		gen.SetNoiseType(FastNoiseLite::NoiseType_Value);
+		gen.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+		//gen.SetFractalOctaves(2);
 
 		xCoord = x;
 		zCoord = z;
@@ -30,12 +31,10 @@ public:
 		{
 			for (unsigned int z = 0; z < 16; z++)
 			{
-				float tmp = gen.GetNoise((x + 0.5 + xCoord * 16), (z + 0.5 + zCoord * 16)) +
-							0.5 * gen.GetNoise(2*(x + 0.5 + xCoord * 16), 2*(z + 0.5 + zCoord * 16)) + 
-							0.25 * gen.GetNoise(4 * (x + 0.5 + xCoord * 16), 4 * (z + 0.5 + zCoord * 16));
-				tmp = tmp / 2 + 0.5;
-				tmp = pow(tmp, 3);
-				tmp = round(tmp * 48)+16;
+				float tmp = gen.GetNoise((x + 0.5 + xCoord * 16), (z + 0.5 + zCoord * 16));
+				tmp = (tmp / 2) + 0.5;
+				tmp = pow(tmp, 2);
+				tmp = round(tmp * 48) + 16;
 				std::cout << tmp << ((z == 15) ? "\n" : " - ");
 				for (unsigned int y = 0; y < 64; y++)
 				{
