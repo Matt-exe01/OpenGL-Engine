@@ -19,7 +19,7 @@
 bool wireframe = false;
 
 static int oldState = GLFW_RELEASE;
-float mesh[40000000];
+float mesh[200000000];
 
 // camera
 Camera camera(glm::vec3(0.0f, 65.0f, 3.0f));
@@ -84,6 +84,7 @@ int main()
     //std::vector<float> Mesh = chunk.generateChunkMesh();
     int faceInMesh = worldMap.getWorldMesh();
     std::cout << faceInMesh;
+    renderer.setBuffer(mesh, faceInMesh);
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -109,7 +110,7 @@ int main()
         shaderManager.setInt("texture", 0);
         shaderManager.use();
 
-        renderer.renderMesh(mesh, faceInMesh);
+        renderer.renderMesh(faceInMesh);
         //break;
 
 

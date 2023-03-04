@@ -12,6 +12,10 @@ public:
 	Camera* CameraObj = NULL;
 	Shader* ShaderHandler = NULL;
 
+	glm::mat4 projection;
+	glm::mat4 view;
+	unsigned int VBO, VAO;
+
 	Renderer(Camera* camera, Shader* shader) {
 		CameraObj = camera;
 		ShaderHandler = shader;
@@ -23,20 +27,25 @@ public:
 	};
 
 
-	void renderMesh(float mesh[], int length) {
+	void renderMesh(int length) {
 
 		//Creo le matrici di rendering
-		glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 1000.0f);
-		glm::mat4 view = glm::lookAt(CameraObj->Position, CameraObj->Position + CameraObj->Front, CameraObj->Up);
+		projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 1000.0f);
+		view = glm::lookAt(CameraObj->Position, CameraObj->Position + CameraObj->Front, CameraObj->Up);
 
 		//applico le matrici alla shader
 		ShaderHandler->setMat4("projection", projection);
 		ShaderHandler->setMat4("view", view);
 
+		glBindVertexArray(VAO);
 
+		glDrawArrays(GL_TRIANGLES, 0, (length*6));
+	}
+
+
+	void setBuffer(float mesh[], int length) {
 
 		//Creo i buffer
-		unsigned int VBO, VAO;
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 
@@ -58,13 +67,6 @@ public:
 		glEnableVertexAttribArray(2);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glBindVertexArray(VAO);
-
-		glm::mat4 model = glm::mat4(1.0f);
-		ShaderHandler->setMat4("model", model);
-
-		glDrawArrays(GL_TRIANGLES, 0, (length*6));
 	}
 
 private:

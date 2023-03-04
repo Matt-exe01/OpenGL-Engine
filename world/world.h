@@ -12,8 +12,8 @@ public:
 
 	World(float* ptrMesh) {
 		ptr = ptrMesh;
-		for (int x = 0; x < 8; x++) {
-			for (int z = 0; z < 8; z++) {
+		for (int x = 0; x < 15; x++) {
+			for (int z = 0; z < 15; z++) {
 				mappa[x][z] = new Chunk(x, z);
 			}
 		}
@@ -23,8 +23,8 @@ public:
 		std::vector<float> finalMesh;
 		int faceAdded = 0;
 
-		for (int x = 0; x < 8; x++) {
-			for (int z = 0; z < 8; z++) {
+		for (int x = 0; x < 15; x++) {
+			for (int z = 0; z < 15; z++) {
 				std::vector<float> tmp = mappa[x][z]->generateChunkMesh();
 				faceAdded += (tmp.size()/36);
 				finalMesh.insert(finalMesh.end(), tmp.begin(), tmp.end());

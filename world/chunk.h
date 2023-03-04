@@ -23,7 +23,7 @@ public:
 		{
 			for (unsigned int z = 0; z < 16; z++)
 			{
-				int colHeight = 63; /*rand() % 44 + 20;*/
+				int colHeight = rand() % 50 + 14;
 				for (unsigned int y = 0; y < 64; y++)
 				{
 					ChunkData[x][y][z] = (y < colHeight) ? 1 : 0;
@@ -34,7 +34,7 @@ public:
 
 	std::vector<float> generateChunkMesh() {
 		mesh.clear();
-		mesh.reserve(3000000);
+		mesh.reserve(5000000);
 		int elemAdded = 0;
 
 		for (int x = 0; x < 16; x++)
