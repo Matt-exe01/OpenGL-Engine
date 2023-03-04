@@ -12,12 +12,14 @@
 #include "camera/camera.h"
 #include "renderer/renderer.h"
 #include "world/chunk.h"
+#include "world/world.h"
 
 #include <iostream>
 
 bool wireframe = false;
 
-float mesh[4000000];
+static int oldState = GLFW_RELEASE;
+float mesh[40000000];
 
 // camera
 Camera camera(glm::vec3(0.0f, 65.0f, 3.0f));
@@ -25,8 +27,8 @@ float lastX = 1920 / 2.0f;
 float lastY = 1080 / 2.0f;
 bool firstMouse = true;
 
-Chunk chunk(0, 0, mesh);
-
+//Chunk chunk(0, 0);
+World worldMap(mesh);
 
 
 void processInput(GLFWwindow* window);
@@ -79,8 +81,9 @@ int main()
 
     //====== End TMP - Test Only ==========\\
 
-    int faceInMesh = chunk.generateChunkMesh();
-
+    //std::vector<float> Mesh = chunk.generateChunkMesh();
+    int faceInMesh = worldMap.getWorldMesh();
+    std::cout << faceInMesh;
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -179,7 +182,13 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         camera.ProcessKeyboard(DOWN, deltaTime);
     }
-        
+
+    //Mouse click
+    //int newState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    //if (newState == GLFW_PRESS && oldState == GLFW_RELEASE) {
+    //    camera.launchRaycastCollision();
+    //}
+    //oldState = newState;  
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)

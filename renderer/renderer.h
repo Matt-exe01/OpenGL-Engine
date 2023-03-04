@@ -26,7 +26,7 @@ public:
 	void renderMesh(float mesh[], int length) {
 
 		//Creo le matrici di rendering
-		glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 1000.0f);
 		glm::mat4 view = glm::lookAt(CameraObj->Position, CameraObj->Position + CameraObj->Front, CameraObj->Up);
 
 		//applico le matrici alla shader

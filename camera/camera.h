@@ -4,8 +4,10 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "glm/gtx/string_cast.hpp"
 #include <vector>
+#include "ray.h"
+
 
 enum Camera_Movement {
     FORWARD,
@@ -102,8 +104,26 @@ public:
         }
 
         updateCameraVectors();
+    }
 
-        
+    void launchRaycastCollision() {
+
+        glm::vec3 direction;
+        direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+        direction.y = sin(glm::radians(Pitch));
+        direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+
+
+        Ray raggio(Position, direction);
+
+        bool collision = true;
+        do
+        {
+            raggio.step();
+            glm::vec3 tmp = raggio.getEnd();
+            std::cout << to_string(tmp);
+
+        } while (!collision);
     }
 
 private:
