@@ -19,8 +19,7 @@ public:
 	Chunk(int x, int z, int seed) {
 
 		FastNoiseLite gen(seed);
-		gen.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-		//gen.SetFractalOctaves(2);
+		gen.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 
 		xCoord = x;
 		zCoord = z;
@@ -61,7 +60,7 @@ public:
 						for (int i = 1; i <= 6; i++)
 						{
 							if (!isFaceAdjacent(i, x, y, z)) {
-								addFaceToMesh(i, x, y, z);
+								addFaceToMesh(i, ChunkData[x][y][z], x, y, z);
 							}
 						}
 					}
@@ -74,12 +73,14 @@ public:
 
 private:
 
-	void addFaceToMesh(int faceDirection, float chunkX, float chunkY, float chunkZ) {
+	void addFaceToMesh(int faceDirection, int type, float chunkX, float chunkY, float chunkZ) {
 
 		int xToAdd = xCoord * 16;
 		int zToAdd = zCoord * 16;
 
-		float texureOffset = (faceDirection - 1) / 6;
+		int nType = 2;
+		float xOffset = type-1;
+		float yOffset = faceDirection-1;
 
 		//per ognuno aggiungo la faccia più le coordinate del blocco nel mondo
 		switch (faceDirection)
@@ -88,12 +89,12 @@ private:
 		case 1:
 		{
 			float BackVertices[36] = {
-				(-0.5f + (chunkX) + xToAdd),  (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.8f,
-				(-0.5f + (chunkX) + xToAdd),  ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 0.8f,
-				( 0.5f + (chunkX) + xToAdd),  ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.8f,
-				( 0.5f + (chunkX) + xToAdd),  ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.8f,
-				( 0.5f + (chunkX) + xToAdd),  (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 0.8f,
-				(-0.5f + (chunkX) + xToAdd),  (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.8f,
+				(-0.5f + (chunkX) + xToAdd),  (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.8f,
+				(-0.5f + (chunkX) + xToAdd),  ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.8f,
+				( 0.5f + (chunkX) + xToAdd),  ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.8f,
+				( 0.5f + (chunkX) + xToAdd),  ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.8f,
+				( 0.5f + (chunkX) + xToAdd),  (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.8f,
+				(-0.5f + (chunkX) + xToAdd),  (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.8f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(BackVertices), std::end(BackVertices));
@@ -104,12 +105,12 @@ private:
 		case 2:
 		{
 			float TopVertices[36] = {
-				( 0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 1.0f,
-				( 0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 1.0f,
-				(-0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 1.0f,
-				(-0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 1.0f,
-				(-0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 1.0f,
-				( 0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 1.0f,
+				( 0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 1.0f,
+				( 0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 1.0f,
+				(-0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 1.0f,
+				(-0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 1.0f,
+				(-0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 1.0f,
+				( 0.5f + (chunkX) + xToAdd),  (0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 1.0f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(TopVertices), std::end(TopVertices));
@@ -120,12 +121,12 @@ private:
 		case 3:
 		{
 			float FrontVertices[36] = {
-				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.8f,
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.8f,
-				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 0.8f,
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.8f,
-				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.8f,
-				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 0.8f,
+				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.8f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.8f,
+				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.8f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.8f,
+				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.8f,
+				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.8f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(FrontVertices), std::end(FrontVertices));
@@ -136,12 +137,12 @@ private:
 		case 4:
 		{
 			float BottomVertices[36] = {
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.6f,
-				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 0.6f,
-				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.6f,
-				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.6f,
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 0.6f,
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.6f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.6f,
+				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.6f,
+				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.6f,
+				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.6f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.6f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.6f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(BottomVertices), std::end(BottomVertices));
@@ -152,12 +153,12 @@ private:
 		case 5:
 		{
 			float LeftVertices[36] = {
-				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.7f,
-				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 0.7f,
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.7f,
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.7f,
-				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 0.7f,
-				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.7f,
+				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.7f,
+				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.7f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.7f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.7f,
+				(-0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.7f,
+				(-0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.7f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(LeftVertices), std::end(LeftVertices));
@@ -168,12 +169,12 @@ private:
 		case 6:
 		{
 			float RightVertices[36] = {
-				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 0.7f,
-				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 1.0f, 0.7f,
-				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 0.7f,
-				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 1.0f, 0.7f,
-				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), 0.0f, 0.0f, 0.7f,
-				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), 1.0f, 0.0f, 0.7f,
+				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.7f,
+				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.7f,
+				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.7f,
+				( 0.5f + (chunkX) + xToAdd), ( 0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (1.0f + yOffset)/6, 0.7f,
+				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), ( 0.5f + (chunkZ) + zToAdd), (0.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.7f,
+				( 0.5f + (chunkX) + xToAdd), (-0.5f + chunkY), (-0.5f + (chunkZ) + zToAdd), (1.0f + xOffset)/nType, (0.0f + yOffset)/6, 0.7f,
 			};
 
 			mesh.insert(mesh.end(), std::begin(RightVertices), std::end(RightVertices));

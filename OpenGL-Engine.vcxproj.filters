@@ -1327,6 +1327,9 @@
     <ClInclude Include="math\Noises.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="camera\Raycaster.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="include\glfw3.lib" />

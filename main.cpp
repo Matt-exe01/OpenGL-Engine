@@ -72,7 +72,7 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-    Shader shaderManager("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl", "./res/skin.jpg");
+    Shader shaderManager("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl", "./res/skinAtlas.jpg");
 
     Renderer renderer(&camera, &shaderManager);
 
