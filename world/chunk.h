@@ -19,7 +19,8 @@ public:
 	Chunk(int x, int z, int seed) {
 
 		FastNoiseLite gen(seed);
-		gen.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+		gen.SetNoiseType(FastNoiseLite::NoiseType_Value);
+		gen.SetFrequency(0.05);
 
 		xCoord = x;
 		zCoord = z;
@@ -37,7 +38,7 @@ public:
 				std::cout << tmp << ((z == 15) ? "\n" : " - ");
 				for (unsigned int y = 0; y < 64; y++)
 				{
-					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp) ? 1 : 0;
+					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp-3) ? 1 : (y < tmp) ? 3 : 0;
 				}
 			}
 		}
@@ -78,7 +79,7 @@ private:
 		int xToAdd = xCoord * 16;
 		int zToAdd = zCoord * 16;
 
-		int nType = 2;
+		int nType = 3;
 		float xOffset = type-1;
 		float yOffset = faceDirection-1;
 

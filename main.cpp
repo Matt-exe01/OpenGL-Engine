@@ -27,7 +27,6 @@ float lastX = 1920 / 2.0f;
 float lastY = 1080 / 2.0f;
 bool firstMouse = true;
 
-//Chunk chunk(0, 0);
 World worldMap(mesh);
 
 
@@ -76,12 +75,6 @@ int main()
 
     Renderer renderer(&camera, &shaderManager);
 
-
-    //==== Start TMP - Test Only ==========\\
-
-    //====== End TMP - Test Only ==========\\
-
-    //std::vector<float> Mesh = chunk.generateChunkMesh();
     int faceInMesh = worldMap.getWorldMesh();
     std::cout << faceInMesh;
     renderer.setBuffer(mesh, faceInMesh);
@@ -111,29 +104,7 @@ int main()
         shaderManager.use();
 
         renderer.renderMesh(faceInMesh);
-        //break;
 
-
-        /*
-        glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 100.0f);
-        shaderManager.setMat4("projection", projection);
-
-        glm::mat4 view = glm::lookAt(camera.Position, camera.Position + camera.Front, camera.Up);
-        shaderManager.setMat4("view", view);
-
-
-        glBindVertexArray(VAO);
-        for (unsigned int i = 0; i < 10; i++)
-        {
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, cubePositions[i]);
-            float angle = 20.0f * i;
-            //model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            shaderManager.setMat4("model", model);
-
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-        */
         // Swappa i buffer e mette in coda gli eventi
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
