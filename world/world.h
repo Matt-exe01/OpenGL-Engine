@@ -12,51 +12,35 @@ public:
 
 	float* ptr;
 
-	World(float* ptr) {
+	World(Camera* camera, Shader* shader) {
 		this->ptr = ptr;
 		int seed = time(NULL);
 		for (int x = 0; x < 25; x++) {
 			for (int z = 0; z < 25; z++) {
-				mappa[x][z] = new Chunk(x, z, seed);
+				mappa[x][z] = new Chunk(camera, shader, x, z, seed);
 			}
 		}
 	};
 
-	int getWorldMesh() {
-		std::vector<float> finalMesh;
-		int faceAdded = 0;
-
-		for (int x = 0; x < 25; x++) {
-			for (int z = 0; z < 25; z++) {
-				std::vector<float> tmp = mappa[x][z]->generateChunkMesh();
-				faceAdded += (tmp.size()/36);
-				finalMesh.insert(finalMesh.end(), tmp.begin(), tmp.end());
+	void generateWorldMesh() {
+		for (int i = 0; i < 25; i++)
+		{
+			for (int j = 0; j < 25; j++)
+			{
+				mappa[i][j]->renderChunkMesh();
 			}
 		}
-
-		std::copy(finalMesh.begin(), finalMesh.end(), ptr);
-		return faceAdded;
 	}
 
-	//void generateWorldMesh() {
-	//	for (int i = 0; i < 25; i++)
-	//	{
-	//		for (int j = 0; j < 25; j++)
-	//		{
-	//			mappa[i][j]->renderChunkMesh();
-	//		}
-	//	}
-	//}
-
-	//void renderWorld() {
-	//	for (int i = 0; i < 25; i++)
-	//	{
-	//		for (int j = 0; j < 25; j++)
-	//		{
-	//			mappa[i][j]->renderMesh();
-	//		}
-	//	}
-	//}
+	void renderWorld() {
+		for (int i = 0; i < 25; i++)
+		{
+			for (int j = 0; j < 25; j++)
+			{
+				mappa[i][j]->renderMesh();
+			}
+		}
+	}
 
 private:
 

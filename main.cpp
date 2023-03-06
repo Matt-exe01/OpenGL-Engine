@@ -27,7 +27,7 @@ float lastX = 1920 / 2.0f;
 float lastY = 1080 / 2.0f;
 bool firstMouse = true;
 
-World worldMap(mesh);
+//World worldMap(mesh);
 
 
 void processInput(GLFWwindow* window);
@@ -75,9 +75,13 @@ int main()
 
     Renderer renderer(&camera, &shaderManager);
 
-    int faceInMesh = worldMap.getWorldMesh();
-    std::cout << faceInMesh;
-    renderer.setBuffer(mesh, faceInMesh);
+    //int faceInMesh = worldMap.getWorldMesh();
+    //std::cout << faceInMesh;
+    //renderer.setBuffer(mesh, faceInMesh);
+    
+    World worldMap(&camera, &shaderManager);
+    worldMap.generateWorldMesh();
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -103,7 +107,8 @@ int main()
         shaderManager.setInt("texture", 0);
         shaderManager.use();
 
-        renderer.renderMesh(faceInMesh);
+        //renderer.renderMesh(faceInMesh);
+        worldMap.renderWorld();
 
         // Swappa i buffer e mette in coda gli eventi
         // -------------------------------------------------------------------------------

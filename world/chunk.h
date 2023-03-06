@@ -17,11 +17,13 @@ public:
 
 	int meshLenght = 0;
 
-	Renderer* renderer;
+	Renderer* renderer = NULL;
 
 	int ChunkData[16][64][16];
 
-	Chunk(int x, int z, int seed) {
+	Chunk(Camera* camera, Shader* shader, int x, int z, int seed) {
+
+		renderer = new Renderer(camera, shader);
 
 		FastNoiseLite gen(seed);
 		gen.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
@@ -38,10 +40,13 @@ public:
 				float tmp = gen.GetNoise((x + 0.5 + xCoord * 16), (z + 0.5 + zCoord * 16));
 				tmp = (tmp / 2) + 0.5;
 				tmp = pow(tmp, 3);
-				tmp = round(tmp * 32) + 32;
+				tmp = round(tmp * 54) + 10;
 				for (unsigned int y = 0; y < 64; y++)
 				{
-					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp-2) ? 1 : (y < tmp) ? 3 : 0;
+					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp - 2) ? 1 : (y < tmp) ? 3 : 0;
+					if (ChunkData[x][y][z] == 0 && y < 14) {
+						ChunkData[x][y][z] = 4;
+					}
 				}
 			}
 		}
@@ -71,12 +76,11 @@ public:
 				}
 			}
 		}
-		//std::copy(mesh.begin(), mesh.end(), ptrMeshBuffer);
 		return mesh;
 	}
 
-	/*void renderChunkMesh() {
-		float mesh[4000000];
+	void renderChunkMesh() {
+		float *mesh = new float[4000000];
 
 		std::vector<float> vecMesh = generateChunkMesh();
 		meshLenght = vecMesh.size();
@@ -87,7 +91,7 @@ public:
 
 	void renderMesh() {
 		renderer->renderMesh((meshLenght / 36));
-	}*/
+	}
 
 private:
 
@@ -96,7 +100,7 @@ private:
 		int xToAdd = xCoord * 16;
 		int zToAdd = zCoord * 16;
 
-		int nType = 3;
+		int nType = 4;
 		float xOffset = type-1;
 		float yOffset = faceDirection-1;
 
