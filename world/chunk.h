@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "../math/Noises.h"
+#include "../renderer/renderer.h"
 
 
 class Chunk
@@ -14,18 +15,21 @@ public:
 	int xCoord;
 	int zCoord;
 
+	int meshLenght = 0;
+
+	Renderer* renderer;
+
 	int ChunkData[16][64][16];
 
 	Chunk(int x, int z, int seed) {
 
 		FastNoiseLite gen(seed);
-		gen.SetNoiseType(FastNoiseLite::NoiseType_Value);
-		gen.SetFrequency(0.05);
+		gen.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
+		gen.SetFrequency(0.02);
+		gen.SetFractalOctaves(10);
 
 		xCoord = x;
 		zCoord = z;
-
-		std::cout << "===== Chunk: " << xCoord << " - " << zCoord << " =====\n";
 
 		for (unsigned int x = 0; x < 16; x++)
 		{
@@ -33,17 +37,16 @@ public:
 			{
 				float tmp = gen.GetNoise((x + 0.5 + xCoord * 16), (z + 0.5 + zCoord * 16));
 				tmp = (tmp / 2) + 0.5;
-				tmp = pow(tmp, 2);
-				tmp = round(tmp * 48) + 16;
-				std::cout << tmp << ((z == 15) ? "\n" : " - ");
+				tmp = pow(tmp, 3);
+				tmp = round(tmp * 32) + 32;
 				for (unsigned int y = 0; y < 64; y++)
 				{
-					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp-3) ? 1 : (y < tmp) ? 3 : 0;
+					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp-2) ? 1 : (y < tmp) ? 3 : 0;
 				}
 			}
 		}
 
-		std::cout << "\n\n\n";
+		std::cout << "CHUNK " << x << "-" << z << "\tDONE!\n";
 	};
 
 	std::vector<float> generateChunkMesh() {
@@ -71,6 +74,20 @@ public:
 		//std::copy(mesh.begin(), mesh.end(), ptrMeshBuffer);
 		return mesh;
 	}
+
+	/*void renderChunkMesh() {
+		float mesh[4000000];
+
+		std::vector<float> vecMesh = generateChunkMesh();
+		meshLenght = vecMesh.size();
+		std::copy(vecMesh.begin(), vecMesh.end(), mesh);
+
+		renderer->setBuffer(mesh, (meshLenght / 36));
+	}
+
+	void renderMesh() {
+		renderer->renderMesh((meshLenght / 36));
+	}*/
 
 private:
 

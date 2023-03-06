@@ -154,13 +154,6 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         camera.ProcessKeyboard(DOWN, deltaTime);
     }
-
-    //Mouse click
-    //int newState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-    //if (newState == GLFW_PRESS && oldState == GLFW_RELEASE) {
-    //    camera.launchRaycastCollision();
-    //}
-    //oldState = newState;  
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
