@@ -7,7 +7,6 @@
 #include "glm/gtx/string_cast.hpp"
 #include <vector>
 
-
 enum Camera_Movement {
     FORWARD,
     BACKWARD,
@@ -41,6 +40,7 @@ public:
     float MovementSpeed;
     float MouseSensitivity;
     float Zoom;
+
 
     // Costruttore con vettori
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -82,9 +82,9 @@ public:
 
         Position.y = y;
         if (direction == UP)
-            Position += glm::normalize(Up) * velocity;
+            Position.y += velocity;
         if (direction == DOWN)
-            Position -= glm::normalize(Up) * velocity;
+            Position.y -= velocity;
 
         
     }

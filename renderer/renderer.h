@@ -42,7 +42,7 @@ public:
 	}
 
 
-	void setBuffer(float* mesh, int length) {
+	void setMeshBuffer(float* mesh, int length) {
 
 		//Creo i buffer
 		glGenVertexArrays(1, &VAO);

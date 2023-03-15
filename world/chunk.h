@@ -26,8 +26,8 @@ public:
 		renderer = new Renderer(camera, shader);
 
 		FastNoiseLite gen(seed);
-		gen.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
-		gen.SetFrequency(0.02);
+		gen.SetNoiseType(FastNoiseLite::NoiseType_Value);
+		gen.SetFrequency(0.03);
 		gen.SetFractalOctaves(10);
 
 		xCoord = x;
@@ -86,11 +86,27 @@ public:
 		meshLenght = vecMesh.size();
 		std::copy(vecMesh.begin(), vecMesh.end(), mesh);
 
-		renderer->setBuffer(mesh, (meshLenght / 36));
+		renderer->setMeshBuffer(mesh, (meshLenght / 36));
 	}
 
 	void renderMesh() {
 		renderer->renderMesh((meshLenght / 36));
+	}
+
+	int getBlockAt(glm::vec3 posInChunk) {
+		int x = posInChunk.x;
+		int y = posInChunk.y;
+		int z = posInChunk.z;
+		int tmp = ChunkData[x % 16][y][z % 16];
+		return tmp;
+	}
+
+	void breakBlockAt(glm::vec3 posInChunk) {
+		int x = posInChunk.x;
+		int y = posInChunk.y;
+		int z = posInChunk.z;
+		ChunkData[x % 16][y][z % 16] = 0;
+		renderChunkMesh();
 	}
 
 private:

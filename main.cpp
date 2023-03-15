@@ -22,12 +22,12 @@ static int oldState = GLFW_RELEASE;
 float mesh[300000000];
 
 // camera
-Camera camera(glm::vec3(0.0f, 65.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 65.0f, 0.0f));
 float lastX = 1920 / 2.0f;
 float lastY = 1080 / 2.0f;
 bool firstMouse = true;
 
-//World worldMap(mesh);
+World* worldMap;
 
 
 void processInput(GLFWwindow* window);
@@ -71,16 +71,12 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-    Shader shaderManager("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl", "./res/skinAtlas.jpg");
+    Shader shaderManager("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl", "./res/skinAtlas.jpg", "./res/crosshair.png");
 
     Renderer renderer(&camera, &shaderManager);
-
-    //int faceInMesh = worldMap.getWorldMesh();
-    //std::cout << faceInMesh;
-    //renderer.setBuffer(mesh, faceInMesh);
     
-    World worldMap(&camera, &shaderManager);
-    worldMap.generateWorldMesh();
+    worldMap = new World(&camera, &shaderManager);
+    worldMap->generateWorldMesh();
 
     // render loop
     // -----------
@@ -108,7 +104,7 @@ int main()
         shaderManager.use();
 
         //renderer.renderMesh(faceInMesh);
-        worldMap.renderWorld();
+        worldMap->renderWorld();
 
         // Swappa i buffer e mette in coda gli eventi
         // -------------------------------------------------------------------------------
@@ -159,6 +155,13 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         camera.ProcessKeyboard(DOWN, deltaTime);
     }
+
+    //Mouse click
+    int newState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    if (newState == GLFW_PRESS && oldState == GLFW_RELEASE) {
+        worldMap->LaunchCollisionRay();
+    }
+    oldState = newState;  
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
