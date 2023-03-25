@@ -19,7 +19,6 @@
 bool wireframe = false;
 
 static int oldState = GLFW_RELEASE;
-float mesh[300000000];
 
 // camera
 Camera camera(glm::vec3(0.0f, 65.0f, 0.0f));

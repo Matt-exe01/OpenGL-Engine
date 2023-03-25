@@ -10,27 +10,22 @@ public:
 	glm::vec3 Start;
 	glm::vec3 End;
 
-	glm::vec3 Direction;
-
 	int tmpp = 0;
 
 	float Yaw;
 	float Pitch;
 
-	Raycaster(glm::vec3 position, glm::vec3 direction, float yaw, float pitch) {
+	Raycaster(glm::vec3 position, float yaw, float pitch) {
 		Start = position;
 		End = position;
-		Direction = direction;
 		Yaw = glm::radians(yaw);
 		Pitch = glm::radians(pitch);
 	};
 
-	~Raycaster() {
-		std::cout << "Raycaster Distrutto!!\n";
-	}
+	~Raycaster() {}
 
 	void step(float scale) {
-		scale = 0.5f;
+		scale = 0.25f;
 
 		End.x += glm::cos(Yaw)		* scale;
 		End.z += glm::sin(Yaw)		* scale;

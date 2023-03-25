@@ -15,6 +15,7 @@ public:
 	int xCoord;
 	int zCoord;
 
+	int waterLevel = 14;
 	int meshLenght = 0;
 
 	Renderer* renderer = NULL;
@@ -44,7 +45,7 @@ public:
 				for (unsigned int y = 0; y < 64; y++)
 				{
 					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp - 2) ? 1 : (y < tmp) ? 3 : 0;
-					if (ChunkData[x][y][z] == 0 && y < 14) {
+					if (ChunkData[x][y][z] == 0 && y < waterLevel) {
 						ChunkData[x][y][z] = 4;
 					}
 				}
@@ -55,8 +56,6 @@ public:
 	};
 
 	std::vector<float> generateChunkMesh() {
-		mesh.clear();
-		mesh.reserve(5000000);
 		int elemAdded = 0;
 
 		for (int x = 0; x < 16; x++)
@@ -79,14 +78,16 @@ public:
 		return mesh;
 	}
 
-	void renderChunkMesh() {
+	void setChunkMeshBuffer() {
 		float *mesh = new float[4000000];
 
 		std::vector<float> vecMesh = generateChunkMesh();
+		this->mesh.resize(0);
 		meshLenght = vecMesh.size();
 		std::copy(vecMesh.begin(), vecMesh.end(), mesh);
 
 		renderer->setMeshBuffer(mesh, (meshLenght / 36));
+		delete[] mesh;
 	}
 
 	void renderMesh() {
@@ -106,7 +107,7 @@ public:
 		int y = posInChunk.y;
 		int z = posInChunk.z;
 		ChunkData[x % 16][y][z % 16] = 0;
-		renderChunkMesh();
+		setChunkMeshBuffer();
 	}
 
 private:

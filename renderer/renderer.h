@@ -53,8 +53,6 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, (sizeof(mesh) * length * 36), mesh, GL_STATIC_DRAW);
 
-		//std::cout << length << "\n";
-
 		// Attributi positione
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
