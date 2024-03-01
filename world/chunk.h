@@ -79,7 +79,7 @@ public:
 	}
 
 	void setChunkMeshBuffer() {
-		float *mesh = new float[4000000];
+		float* mesh = new float[4000000];
 
 		std::vector<float> vecMesh = generateChunkMesh();
 		this->mesh.resize(0);
@@ -106,8 +106,10 @@ public:
 		int x = posInChunk.x;
 		int y = posInChunk.y;
 		int z = posInChunk.z;
-		ChunkData[x % 16][y][z % 16] = 0;
-		setChunkMeshBuffer();
+		if (ChunkData[x % 16][y][z % 16] != 4) {
+			ChunkData[x % 16][y][z % 16] = 0;
+			setChunkMeshBuffer();
+		}
 	}
 
 private:
