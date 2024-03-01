@@ -25,7 +25,7 @@ public:
 	~Raycaster() {}
 
 	void step(float scale) {
-		scale = 0.25f;
+		scale = 0.1f;
 
 		End.x += glm::cos(Yaw)		* scale;
 		End.z += glm::sin(Yaw)		* scale;
