@@ -286,6 +286,8 @@
     <None Include="README.md" />
     <None Include="shader\shaders\basicFrag.glsl" />
     <None Include="shader\shaders\basicVert.glsl" />
+    <None Include="shader\shaders\skyboxFrag.glsl" />
+    <None Include="shader\shaders\skyboxVert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera\camera.h" />
@@ -588,6 +590,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\skin.jpg" />
+    <Image Include="res\skinAtlas.jpg" />
+    <Image Include="res\skybox\back.jpg" />
+    <Image Include="res\skybox\bottom.jpg" />
+    <Image Include="res\skybox\front.jpg" />
+    <Image Include="res\skybox\left.jpg" />
+    <Image Include="res\skybox\right.jpg" />
+    <Image Include="res\skybox\top.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

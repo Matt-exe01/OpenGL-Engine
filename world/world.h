@@ -8,9 +8,9 @@ class World
 {
 public:
 
-	Chunk *mappa[16][16];
+	Chunk *mappa[10][10];
 
-	int size = 16;
+	int size = 10;
 
 	Camera* camera;
 	Shader* shader;
@@ -41,7 +41,10 @@ public:
 		{
 			for (int j = 0; j < size; j++)
 			{
-				mappa[i][j]->renderMesh();
+				//TODO Controllare se il chunk è visibile dalla camera
+				
+				//if chunk visible
+					mappa[i][j]->renderMesh();
 			}
 		}
 	}

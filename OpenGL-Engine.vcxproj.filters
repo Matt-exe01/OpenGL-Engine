@@ -443,6 +443,8 @@
     </None>
     <None Include="shader\shaders\basicVert.glsl" />
     <None Include="shader\shaders\basicFrag.glsl" />
+    <None Include="shader\shaders\skyboxFrag.glsl" />
+    <None Include="shader\shaders\skyboxVert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\stb_image.h">
@@ -1333,6 +1335,27 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\skin.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\skinAtlas.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\skybox\back.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\skybox\bottom.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\skybox\front.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\skybox\left.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\skybox\right.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\skybox\top.jpg">
       <Filter>File di risorse</Filter>
     </Image>
   </ItemGroup>
