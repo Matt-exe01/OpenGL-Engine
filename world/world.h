@@ -3,7 +3,7 @@
 #include <ctime>
 #include "chunk.h"
 #include "../camera/Raycaster.h"
-
+#include "../renderer/renderer.h"
 class World
 {
 public:
@@ -14,6 +14,10 @@ public:
 
 	Camera* camera;
 	Shader* shader;
+
+	Renderer* skyboxRenderer;
+
+	
 
 	World(Camera* camera, Shader* shader) {
 		this->camera = camera;
@@ -45,6 +49,9 @@ public:
 				
 				//if chunk visible
 					mappa[i][j]->renderMesh();
+
+				//render skybox
+
 			}
 		}
 	}

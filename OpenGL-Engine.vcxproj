@@ -582,6 +582,7 @@
     <ClInclude Include="math\Noises.h" />
     <ClInclude Include="renderer\renderer.h" />
     <ClInclude Include="shader\shaderHandler.h" />
+    <ClInclude Include="utils\vertexData.h" />
     <ClInclude Include="world\chunk.h" />
     <ClInclude Include="world\world.h" />
   </ItemGroup>
