@@ -1332,15 +1332,15 @@
     <ClInclude Include="utils\vertexData.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="math\noise3d.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="include\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\skin.jpg">
-      <Filter>File di risorse</Filter>
-    </Image>
-    <Image Include="res\skinAtlas.jpg">
       <Filter>File di risorse</Filter>
     </Image>
     <Image Include="res\skybox\back.jpg">

@@ -72,7 +72,7 @@ public:
 				searchEnded = true;
 			}
 			else {
-				if (ray->tmpp < 400&& RayEnd.y > 0 && RayEnd.y < 65) {
+				if (ray->tmpp < 400&& RayEnd.y > 0 && RayEnd.y < 129) {
 					ray->step(10);
 				}
 				else {

@@ -22,7 +22,7 @@ bool wireframe = false;
 static int oldState = GLFW_RELEASE;
 
 // camera
-Camera camera(glm::vec3(0.0f, 65.0f, 0.0f));
+Camera camera(glm::vec3(0.0f, 129.0f, 0.0f));
 float lastX = 1920 / 2.0f;
 float lastY = 1080 / 2.0f;
 bool firstMouse = true;

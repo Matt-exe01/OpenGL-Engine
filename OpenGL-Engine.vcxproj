@@ -579,6 +579,7 @@
     <ClInclude Include="include\glm\vector_relational.hpp" />
     <ClInclude Include="include\KHR\khrplatform.h" />
     <ClInclude Include="include\stb_image.h" />
+    <ClInclude Include="math\noise3d.h" />
     <ClInclude Include="math\Noises.h" />
     <ClInclude Include="renderer\renderer.h" />
     <ClInclude Include="shader\shaderHandler.h" />
@@ -591,7 +592,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\skin.jpg" />
-    <Image Include="res\skinAtlas.jpg" />
     <Image Include="res\skinAtlas.png" />
     <Image Include="res\skybox\back.jpg" />
     <Image Include="res\skybox\bottom.jpg" />

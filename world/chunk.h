@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "../math/Noises.h"
+#include "../math/noise3d.h"
 #include "../renderer/renderer.h"
 
 
@@ -15,12 +16,12 @@ public:
 	int xCoord;
 	int zCoord;
 
-	int waterLevel = 14;
+	int waterLevel = 78;
 	int meshLenght = 0;
 
 	Renderer* renderer = NULL;
 
-	int ChunkData[16][64][16];
+	int ChunkData[16][128][16];
 
 	Chunk(Camera* camera, Shader* shader, int x, int z, int seed) {
 
@@ -31,24 +32,37 @@ public:
 		gen.SetFrequency(0.03);
 		gen.SetFractalOctaves(10);
 
+		initializeNoise3d(seed);
+
+
 		xCoord = x;
 		zCoord = z;
 
-		for (unsigned int x = 0; x < 16; x++)
-		{
-			for (unsigned int z = 0; z < 16; z++)
-			{
+		for (unsigned int x = 0; x < 16; x++) {
+
+			for (unsigned int z = 0; z < 16; z++) {
+
 				float tmp = gen.GetNoise((x + 0.5 + xCoord * 16), (z + 0.5 + zCoord * 16));
 				tmp = (tmp / 2) + 0.5;
 				tmp = pow(tmp, 3);
-				tmp = round(tmp * 54) + 10;
-				for (unsigned int y = 0; y < 64; y++)
-				{
+				tmp = round(tmp * 54) + 74;
+				for (unsigned int y = 64; y < 128; y++) {
+
 					ChunkData[x][y][z] = (y == tmp) ? 2 : (y < tmp - 2) ? 1 : (y < tmp) ? 3 : 0;
 					if (ChunkData[x][y][z] == 0 && y < waterLevel) {
 						ChunkData[x][y][z] = 4;
 					}
 				}
+
+				for (unsigned int y = 0; y < 64; y++) {
+
+					if (getNoise3d((x + 0.5 + xCoord * 16), y, (z + 0.5 + zCoord * 16)) <= 0.1) {
+						ChunkData[x][y][z] = 1;
+					} else {
+						ChunkData[x][y][z] = 0;
+					}
+				}
+
 			}
 		}
 
@@ -62,7 +76,7 @@ public:
 		{
 			for (int z = 0; z < 16; z++)
 			{
-				for (int y = 0; y < 64; y++)
+				for (int y = 0; y < 128; y++)
 				{
 					if (ChunkData[x][y][z] != 0) {
 						for (int i = 1; i <= 6; i++)
@@ -79,7 +93,7 @@ public:
 	}
 
 	void setChunkMeshBuffer() {
-		float* mesh = new float[4000000];
+		float* mesh = new float[6000000];
 
 		std::vector<float> vecMesh = generateChunkMesh();
 		this->mesh.resize(0);
@@ -233,7 +247,7 @@ private:
 			if (ChunkData[x][y][z - 1] == 0) return false;
 			break;
 		case 2:
-			if (y == 63) return false;
+			if (y == 127) return false;
 			if (ChunkData[x][y + 1][z] == 0) return false;
 			break;
 		case 3:
