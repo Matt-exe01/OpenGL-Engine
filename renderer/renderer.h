@@ -40,7 +40,7 @@ public:
 		glm::mat4 model = glm::mat4(1.0f);
 		ShaderHandler->setMat4("model", model);
 
-		ShaderHandler->setVec3("light.direction", 1.0f, 1.0f, 1.0f);
+		ShaderHandler->setVec3("light.direction", 0.05, -1.0f, 0.0f);
 		ShaderHandler->setVec3("viewPos", CameraObj->Position);
 
 		// light properties
