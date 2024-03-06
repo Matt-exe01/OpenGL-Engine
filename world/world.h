@@ -8,9 +8,9 @@ class World
 {
 public:
 
-	Chunk *mappa[10][10];
+	Chunk *mappa[16][16];
 
-	int size = 10;
+	int size = 16;
 
 	Camera* camera;
 	Shader* shader;

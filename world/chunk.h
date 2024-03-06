@@ -26,6 +26,7 @@ public:
 	Chunk(Camera* camera, Shader* shader, int x, int z, int seed) {
 
 		renderer = new Renderer(camera, shader);
+		
 
 		FastNoiseLite gen(seed);
 		gen.SetNoiseType(FastNoiseLite::NoiseType_Value);
@@ -59,7 +60,7 @@ public:
 					if (getNoise3d((x + 0.5 + xCoord * 16), y, (z + 0.5 + zCoord * 16)) <= 0.1) {
 						ChunkData[x][y][z] = 1;
 					} else {
-						ChunkData[x][y][z] = (y<2) ? 1 : 0;
+						ChunkData[x][y][z] = 0;
 					}
 				}
 
@@ -105,6 +106,7 @@ public:
 	}
 
 	void renderMesh() {
+		renderer->setLightningAttrib(glm::vec3(0.05, -1.0f, -1.2f), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(0.6f, 0.6f, 0.6f));
 		renderer->renderMesh((meshLenght / 48));
 	}
 

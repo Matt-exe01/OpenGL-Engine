@@ -40,13 +40,7 @@ public:
 		glm::mat4 model = glm::mat4(1.0f);
 		ShaderHandler->setMat4("model", model);
 
-		ShaderHandler->setVec3("light.direction", 0.05, -1.0f, 0.0f);
 		ShaderHandler->setVec3("viewPos", CameraObj->Position);
-
-		// light properties
-		ShaderHandler->setVec3("light.ambient", 0.4f, 0.4f, 0.4f);
-		ShaderHandler->setVec3("light.diffuse", 0.6f, 0.6f, 0.6f);
-		ShaderHandler->setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
 		glBindVertexArray(VAO);
 
@@ -106,6 +100,15 @@ public:
 
 		VAO = skyboxVAO;
 		VBO = skyboxVBO;
+	}
+
+	void setLightningAttrib(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse) {
+		
+		ShaderHandler->setVec3("light.direction", direction);
+
+		// light properties
+		ShaderHandler->setVec3("light.ambient", ambient);
+		ShaderHandler->setVec3("light.diffuse", diffuse);
 	}
 
 private:
