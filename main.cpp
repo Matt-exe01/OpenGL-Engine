@@ -72,7 +72,7 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     Shader shaderManager("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl");
-    shaderManager.loadTexture("./res/skinAtlas.jpg");
+    shaderManager.loadTexture("./res/skinAtlas.png");
 
     Shader skyboxShader("./shader/shaders/skyboxVert.glsl", "./shader/shaders/skyboxFrag.glsl");
     unsigned int cubemapTexture = skyboxShader.loadSkyboxTextures(faces);
@@ -115,7 +115,6 @@ int main()
         shaderManager.setInt("texture", 0);
         shaderManager.use();
 
-        //renderer.renderMesh(faceInMesh);
         worldMap->renderWorld();
         skyboxRenderer.renderSkybox(cubemapTexture);
 

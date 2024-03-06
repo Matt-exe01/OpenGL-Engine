@@ -1361,5 +1361,8 @@
     <Image Include="res\skybox\top.jpg">
       <Filter>File di risorse</Filter>
     </Image>
+    <Image Include="res\skinAtlas.png">
+      <Filter>File di risorse</Filter>
+    </Image>
   </ItemGroup>
 </Project>

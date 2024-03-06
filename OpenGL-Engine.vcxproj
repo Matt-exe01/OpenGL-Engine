@@ -592,6 +592,7 @@
   <ItemGroup>
     <Image Include="res\skin.jpg" />
     <Image Include="res\skinAtlas.jpg" />
+    <Image Include="res\skinAtlas.png" />
     <Image Include="res\skybox\back.jpg" />
     <Image Include="res\skybox\bottom.jpg" />
     <Image Include="res\skybox\front.jpg" />
