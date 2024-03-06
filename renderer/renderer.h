@@ -37,9 +37,20 @@ public:
 		ShaderHandler->setMat4("projection", projection);
 		ShaderHandler->setMat4("view", view);
 
+		glm::mat4 model = glm::mat4(1.0f);
+		ShaderHandler->setMat4("model", model);
+
+		ShaderHandler->setVec3("light.direction", 1.0f, 1.0f, 1.0f);
+		ShaderHandler->setVec3("viewPos", CameraObj->Position);
+
+		// light properties
+		ShaderHandler->setVec3("light.ambient", 0.4f, 0.4f, 0.4f);
+		ShaderHandler->setVec3("light.diffuse", 0.6f, 0.6f, 0.6f);
+		ShaderHandler->setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
 		glBindVertexArray(VAO);
 
-		glDrawArrays(GL_TRIANGLES, 0, (length*6));
+		glDrawArrays(GL_TRIANGLES, 0, (length*8));
 	}
 
 	void renderSkybox(unsigned int cubemapTexture) {
@@ -67,16 +78,16 @@ public:
 		glBindVertexArray(VAO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, (sizeof(mesh) * length * 36), mesh, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, (sizeof(mesh) * length * 64), mesh, GL_STATIC_DRAW);
 
 		// Attributi positione
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		// Attributi texture
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
-		// Attributi luminosità
-		glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(5 * sizeof(float)));
+		// Attributi normali
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(2);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
