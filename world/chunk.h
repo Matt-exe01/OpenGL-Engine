@@ -106,7 +106,7 @@ public:
 	}
 
 	void renderMesh(glm::vec3 lightDir) {
-		renderer->setLightningAttrib(lightDir, glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(0.6f, 0.6f, 0.6f), glm::vec3(1.0f, 1.0f, 0.6f));
+		renderer->setLightningAttrib(lightDir, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 0.7f));
 		renderer->renderMesh((meshLenght / 48));
 	}
 
