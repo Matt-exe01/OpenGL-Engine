@@ -102,13 +102,14 @@ public:
 		VBO = skyboxVBO;
 	}
 
-	void setLightningAttrib(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse) {
+	void setLightningAttrib(glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 color) {
 		
 		ShaderHandler->setVec3("light.direction", direction);
 
 		// light properties
 		ShaderHandler->setVec3("light.ambient", ambient);
 		ShaderHandler->setVec3("light.diffuse", diffuse);
+		ShaderHandler->setVec3("light.color", color);
 	}
 
 private:

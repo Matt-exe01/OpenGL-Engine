@@ -105,8 +105,8 @@ public:
 		delete[] mesh;
 	}
 
-	void renderMesh() {
-		renderer->setLightningAttrib(glm::vec3(0.05, -1.0f, -1.2f), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(0.6f, 0.6f, 0.6f));
+	void renderMesh(glm::vec3 lightDir) {
+		renderer->setLightningAttrib(lightDir, glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(0.6f, 0.6f, 0.6f), glm::vec3(1.0f, 1.0f, 0.6f));
 		renderer->renderMesh((meshLenght / 48));
 	}
 

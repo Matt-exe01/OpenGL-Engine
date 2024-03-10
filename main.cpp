@@ -90,6 +90,8 @@ int main()
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
 
+    glm::vec3 lightDir(0.5f, -1.0f, -0.2f);
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -115,7 +117,7 @@ int main()
         shaderManager.setInt("texture", 0);
         shaderManager.use();
 
-        worldMap->renderWorld();
+        worldMap->renderWorld(lightDir);
         skyboxRenderer.renderSkybox(cubemapTexture);
 
         // Swappa i buffer e mette in coda gli eventi

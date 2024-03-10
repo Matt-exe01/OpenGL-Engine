@@ -40,7 +40,7 @@ public:
 		}
 	}
 
-	void renderWorld() {
+	void renderWorld(glm::vec3 lightDir) {
 		for (int i = 0; i < size; i++)
 		{
 			for (int j = 0; j < size; j++)
@@ -48,7 +48,7 @@ public:
 				//TODO Controllare se il chunk è visibile dalla camera
 				
 				//if chunk visible
-					mappa[i][j]->renderMesh();
+					mappa[i][j]->renderMesh(lightDir);
 
 				//render skybox
 

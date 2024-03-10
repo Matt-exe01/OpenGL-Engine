@@ -7,6 +7,8 @@ struct Light {
 
     vec3 ambient;
     vec3 diffuse;
+
+    vec3 color;
 };
 
 
@@ -28,6 +30,7 @@ void main()
     vec3 lightDir = normalize(-light.direction);  
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * diff;
+    diffuse = diffuse * light.color;
 
     vec3 result = ambient + diffuse;
     FragColor = (texture(ourTexture, textCoord) * vec4(result, 1.0));
