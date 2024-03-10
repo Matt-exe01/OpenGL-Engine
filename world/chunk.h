@@ -57,7 +57,7 @@ public:
 
 				for (unsigned int y = 0; y < 64; y++) {
 
-					if (getNoise3d((x + 0.5 + xCoord * 16), y, (z + 0.5 + zCoord * 16)) <= 0.1) {
+					if ((getNoise3d((x + 0.5 + xCoord * 16), y, (z + 0.5 + zCoord * 16)) - (0.001*y)) <= 0.1) {
 						ChunkData[x][y][z] = 1;
 					} else {
 						ChunkData[x][y][z] = 0;
