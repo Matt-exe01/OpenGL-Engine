@@ -14,6 +14,7 @@ class Shader
 {
 public:
     unsigned int ID;
+    unsigned int texture;
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
     Shader(const char* vertexPath, const char* fragmentPath)
@@ -74,7 +75,6 @@ public:
     void loadTexture(const char* texturePath) {
         
         //Creo le OpenGL texture
-        unsigned int texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
 

@@ -7,7 +7,7 @@ FastNoiseLite* gen;
 void initializeNoise3d(int seed) {
 	gen = new FastNoiseLite(seed);
 	gen->SetNoiseType(FastNoiseLite::NoiseType_ValueCubic);
-	gen->SetFrequency(0.09);
+	gen->SetFrequency(0.05);
 	gen->SetFractalOctaves(10);
 }
 

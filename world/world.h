@@ -8,9 +8,9 @@ class World
 {
 public:
 
-	Chunk *mappa[16][16];
+	Chunk *mappa[1][1];
 
-	int size = 16;
+	int size = 1;
 
 	Camera* camera;
 	Shader* shader;
@@ -19,13 +19,14 @@ public:
 
 	
 
-	World(Camera* camera, Shader* shader) {
+	World(Camera* camera, Shader* shader, Shader* depth, Shader* debug) {
 		this->camera = camera;
 		this->shader = shader;
 		int seed = time(NULL);
+		seed = 1;
 		for (int x = 0; x < size; x++) {
 			for (int z = 0; z < size; z++) {
-				mappa[x][z] = new Chunk(camera, shader, x, z, seed);
+				mappa[x][z] = new Chunk(camera, shader, depth, debug, x, z, seed);
 			}
 		}
 	};
@@ -48,10 +49,7 @@ public:
 				//TODO Controllare se il chunk è visibile dalla camera
 				
 				//if chunk visible
-					mappa[i][j]->renderMesh(lightDir);
-
-				//render skybox
-
+				mappa[i][j]->renderMesh(lightDir);
 			}
 		}
 	}
@@ -72,7 +70,7 @@ public:
 				searchEnded = true;
 			}
 			else {
-				if (ray->tmpp < 400&& RayEnd.y > 0 && RayEnd.y < 129) {
+				if (ray->tmpp < 400 && RayEnd.y > 0 && RayEnd.y < 129) {
 					ray->step(10);
 				}
 				else {

@@ -43,8 +43,8 @@ int main()
     // Inizializzo glfw
     // ------------------------------
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // creo la finestra con glfw
@@ -71,26 +71,37 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
+    //debug shader
+    Shader debugQuad("./shader/shaders/quadVert.glsl", "./shader/shaders/quadFrag.glsl");
+
     Shader shaderManager("./shader/shaders/basicVert.glsl", "./shader/shaders/basicFrag.glsl");
     shaderManager.loadTexture("./res/skinAtlas.png");
 
     Shader skyboxShader("./shader/shaders/skyboxVert.glsl", "./shader/shaders/skyboxFrag.glsl");
     unsigned int cubemapTexture = skyboxShader.loadSkyboxTextures(faces);
 
-    Renderer renderer(&camera, &shaderManager);
+    Shader depthMapShader("./shader/shaders/depthVert.glsl", "./shader/shaders/depthFrag.glsl");
+
 
     Renderer skyboxRenderer(&camera, &skyboxShader);
     skyboxRenderer.setSkyboxBuffer();
     
-    worldMap = new World(&camera, &shaderManager);
+    worldMap = new World(&camera, &shaderManager, &depthMapShader, &debugQuad);
     worldMap->generateWorldMesh();
 
     
+    debugQuad.use();
+    debugQuad.setInt("depthMap", 0);
 
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
 
-    glm::vec3 lightDir(0.5f, -1.0f, -0.2f);
+    shaderManager.use();
+    shaderManager.setInt("texture", 0);
+    shaderManager.setInt("shadowMap", 1);
+
+
+    glm::vec3 lightDir(0.2f, -1.0f, 0.2f);
 
     // render loop
     // -----------
@@ -112,10 +123,6 @@ int main()
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-        shaderManager.setInt("texture", 0);
-        shaderManager.use();
 
         worldMap->renderWorld(lightDir);
         skyboxRenderer.renderSkybox(cubemapTexture);

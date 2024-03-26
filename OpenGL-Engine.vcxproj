@@ -286,6 +286,10 @@
     <None Include="README.md" />
     <None Include="shader\shaders\basicFrag.glsl" />
     <None Include="shader\shaders\basicVert.glsl" />
+    <None Include="shader\shaders\depthFrag.glsl" />
+    <None Include="shader\shaders\depthVert.glsl" />
+    <None Include="shader\shaders\quadFrag.glsl" />
+    <None Include="shader\shaders\quadVert.glsl" />
     <None Include="shader\shaders\skyboxFrag.glsl" />
     <None Include="shader\shaders\skyboxVert.glsl" />
   </ItemGroup>

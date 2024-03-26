@@ -445,6 +445,10 @@
     <None Include="shader\shaders\basicFrag.glsl" />
     <None Include="shader\shaders\skyboxFrag.glsl" />
     <None Include="shader\shaders\skyboxVert.glsl" />
+    <None Include="shader\shaders\depthVert.glsl" />
+    <None Include="shader\shaders\depthFrag.glsl" />
+    <None Include="shader\shaders\quadFrag.glsl" />
+    <None Include="shader\shaders\quadVert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\stb_image.h">

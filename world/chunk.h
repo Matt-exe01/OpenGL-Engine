@@ -20,12 +20,16 @@ public:
 	int meshLenght = 0;
 
 	Renderer* renderer = NULL;
+	Shader* depthShader = NULL;
+	Shader* debug = NULL;
 
 	int ChunkData[16][128][16];
 
-	Chunk(Camera* camera, Shader* shader, int x, int z, int seed) {
+	Chunk(Camera* camera, Shader* shader, Shader* depth, Shader* debug, int x, int z, int seed) {
 
 		renderer = new Renderer(camera, shader);
+		depthShader = depth;
+		this->debug = debug;
 		
 
 		FastNoiseLite gen(seed);
@@ -35,6 +39,7 @@ public:
 
 		initializeNoise3d(seed);
 
+		renderer->configureDepthBuffer(depthShader);
 
 		xCoord = x;
 		zCoord = z;
@@ -73,15 +78,11 @@ public:
 	std::vector<float> generateChunkMesh() {
 		int elemAdded = 0;
 
-		for (int x = 0; x < 16; x++)
-		{
-			for (int z = 0; z < 16; z++)
-			{
-				for (int y = 0; y < 128; y++)
-				{
+		for (int x = 0; x < 16; x++) {
+			for (int z = 0; z < 16; z++) {
+				for (int y = 0; y < 128; y++) {
 					if (ChunkData[x][y][z] != 0) {
-						for (int i = 1; i <= 6; i++)
-						{
+						for (int i = 1; i <= 6; i++) {
 							if (!isFaceAdjacent(i, x, y, z)) {
 								addFaceToMesh(i, ChunkData[x][y][z], x, y, z);
 							}
@@ -107,7 +108,9 @@ public:
 
 	void renderMesh(glm::vec3 lightDir) {
 		renderer->setLightningAttrib(lightDir, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 0.7f));
-		renderer->renderMesh((meshLenght / 48));
+		renderer->renderDepthBuffer((meshLenght / 48), lightDir);
+		renderer->renderMesh(2, (meshLenght / 48));
+		//renderer->renderQuadDebug(debug, (meshLenght / 48));
 	}
 
 	int getBlockAt(glm::vec3 posInChunk) {
